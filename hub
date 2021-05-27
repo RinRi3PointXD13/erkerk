@@ -156,19 +156,25 @@ function Nuke(Dmg)
 end
 	for i,hit in ipairs(game.Players:GetChildren())do
 		if hit.Character:FindFirstChild("Humanoid") and hit.Character:FindFirstChild("HumanoidRootPart") and hit.Character.Name ~= game.Players.LocalPlayer.Name then
-				game:GetService("ReplicatedStorage").Damage30:FireServer(hit.Character:FindFirstChild("Humanoid"), hit.Character.HumanoidRootPart.CFrame, Dmg, 0.1, Vector3.new(0,500,0), 5, "rbxassetid://5228745586", 1, 1)
+				game:GetService("ReplicatedStorage").Damage30:FireServer(hit.Character:FindFirstChild("Humanoid"), hit.Character.HumanoidRootPart.CFrame, Dmg, 0.1, Vector3.new(0,0,0), 5, "rbxassetid://5228745586", 1, 1)
 		end
 	end
 end
 
+local V1 = 1
+
+function Heal(V)
+	game:GetService("ReplicatedStorage").Heal:FireServer(game.Players.LocalPlayer.Character.HumanoidRootPart,V,"rbxassetid://5228745586",1,1)
+end
+
 local dmg = 0
 
-Section4:NewSlider("NukeDamage", "ErkErk", 1000, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+Section4:NewSlider("NukeDamage", "ErkErk", 1000, 0, function(s)
   dmg = s
 end)
 
-Section4:NewButton("Nuke", "ไม่ได้ถาม", function()
-  Nuke(dmg)
+Section4:NewSlider("HealValue", "ErkErk", 1000, 1, function(s1)
+  V1 = s1
 end)
 
 local autonuke = {}
@@ -179,10 +185,25 @@ Section4:NewToggle("Loop Nuke", "โม้", function(state)
     	autonuke.enabled = true
     	while autonuke.enabled do
     		wait()
-    		Nuke(dmg)
+    		Nuke(-dmg)
 		end   
     else
          autonuke.enabled = false
+    end
+end)
+
+local autoheal = {}
+autoheal.enabled = false
+	
+Section4:NewToggle("Loop Heal", "โม้", function(state)
+    if state then
+    	autoheal.enabled = true
+    	while autoheal.enabled do
+    		wait()
+    		Heal(V1)
+		end   
+    else
+         autoheal.enabled = false
     end
 end)
 
@@ -193,6 +214,10 @@ function AntiTS()
 end
 
 local Section5 = Tab4:NewSection("Misc")
+
+Section5:NewButton("Nuke", "ไม่ได้ถาม", function()
+  Nuke(-dmg)
+end)
 
 Section5:NewButton("AntiTimeStop", "ไม่ได้ถาม", function()
 		 AntiTS()
