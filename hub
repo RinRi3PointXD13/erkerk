@@ -185,7 +185,7 @@ Section4:NewToggle("Loop Nuke", "โม้", function(state)
     	autonuke.enabled = true
     	while autonuke.enabled do
     		wait()
-    		Nuke(-dmg)
+    		Nuke(dmg)
 		end   
     else
          autonuke.enabled = false
@@ -207,6 +207,22 @@ Section4:NewToggle("Loop Heal", "โม้", function(state)
     end
 end)
 
+local autoblock = {}
+autoblock.enabled = false
+	
+Section4:NewToggle("Always Block", "เอิ้กๆ", function(state)
+    if state then
+    	autoblock.enabled = true
+    	while autoblock.enabled do
+    		wait()
+    		game:GetService("ReplicatedStorage").Block:FireServer(true)
+		end   
+    else
+         autoblock.enabled = false
+         game:GetService("ReplicatedStorage").Block:FireServer(false)
+    end
+end)
+
 function AntiTS()
 	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 		game:GetService("ReplicatedStorage").Anchor:FireServer(v ,false)
@@ -216,7 +232,7 @@ end
 local Section5 = Tab4:NewSection("Misc")
 
 Section5:NewButton("Nuke", "ไม่ได้ถาม", function()
-  Nuke(-dmg)
+  Nuke(dmg)
 end)
 
 Section5:NewButton("AntiTimeStop", "ไม่ได้ถาม", function()
