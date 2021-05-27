@@ -161,9 +161,9 @@ end
 	end
 end
 
-local dmg = 50
+local dmg = 0
 
-Section4:NewSlider("NukeDamage", "ErkErk", 1000, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+Section4:NewSlider("NukeDamage", "ErkErk", 1000, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
   dmg = s
 end)
 
